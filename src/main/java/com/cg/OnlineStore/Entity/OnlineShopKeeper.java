@@ -17,11 +17,12 @@ public class OnlineShopKeeper {
 	private int totalProductAdded;
 	private String nameOfShop;
 	private String Address;
+	private String shopType;
 	private double rating;
 	private boolean isApproved;
 	private boolean isActive;
 	
-	public OnlineShopKeeper(String shopKeeperUserName, String shopKeeperPassword, int totalProductAdded,
+	public OnlineShopKeeper(String shopKeeperUserName, String shopType, String shopKeeperPassword, int totalProductAdded,
 			String nameOfShop, String address, double rating, ArrayList<String> ratingMessage, boolean isApproved, boolean isActive) {
 		super();
 		this.shopKeeperUserName = shopKeeperUserName;
@@ -32,9 +33,23 @@ public class OnlineShopKeeper {
 		Address = address;
 		this.rating = rating;
 		this.isActive = isActive;
+		this.shopType = shopType;
 	}
 	
 	
+	
+	public String getShopType() {
+		return shopType;
+	}
+
+
+
+	public void setShopType(String shopType) {
+		this.shopType = shopType;
+	}
+
+
+
 	public boolean isActive() {
 		return isActive;
 	}
@@ -101,8 +116,8 @@ public class OnlineShopKeeper {
 	public String toString() {
 		return "OnlineShopKeeper [shopId=" + shopId + ", shopKeeperUserName=" + shopKeeperUserName
 				+ ", shopKeeperPassword=" + shopKeeperPassword + ", totalProductAdded=" + totalProductAdded
-				+ ", nameOfShop=" + nameOfShop + ", Address=" + Address + ", rating=" + rating + ", isApproved="
-				+ isApproved + ", isActive=" + isActive + "]";
+				+ ", nameOfShop=" + nameOfShop + ", Address=" + Address + ", shopType=" + shopType + ", rating="
+				+ rating + ", isApproved=" + isApproved + ", isActive=" + isActive + "]";
 	}
 	
 	
