@@ -16,15 +16,26 @@ public class RatingonProductByShopKeeper {
 	private String addedByShopKeeper;
 	private String Message;
 	private String category;
+	private String ratingBy;
 	public RatingonProductByShopKeeper(double rating, String productName, String addedByShopKeeper,
-			String message, String c) {
+			String message, String c, String ratingBy) {
 		super();
 		this.rating = rating;
 		this.productName = productName;
 		this.addedByShopKeeper = addedByShopKeeper;
 		Message = message;
 		this.category = c;
+		this.ratingBy = ratingBy;
 	}
+	
+	public String getRatingBy() {
+		return ratingBy;
+	}
+
+	public void setRatingBy(String ratingBy) {
+		this.ratingBy = ratingBy;
+	}
+
 	public int getRatingProductId() {
 		return ratingProductId;
 	}
@@ -65,7 +76,7 @@ public class RatingonProductByShopKeeper {
 	public String toString() {
 		return "RatingonProductByShopKeeper [ratingProductId=" + ratingProductId + ", rating=" + rating
 				+ ", productName=" + productName + ", addedByShopKeeper=" + addedByShopKeeper + ", Message=" + Message
-				+ ", category=" + category + "]";
+				+ ", category=" + category + ", ratingBy=" + ratingBy + "]";
 	}
 	
 	

@@ -6,5 +6,6 @@ public class OnlineUserDashboardDetails {
 	public int NumberOfRatingGivenOnProduct;
 	public int numberOfRatingGivenOnShopKeeper;
 	public int numberOfChats;
-	
+	public int totalNumberOfProduct;
+	public int totalNumberOfCategory;
 }
