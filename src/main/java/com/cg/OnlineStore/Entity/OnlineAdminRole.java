@@ -18,9 +18,11 @@ public class OnlineAdminRole {
 	private int totalProductAdded;
 	private int totalRatingReceived;
 	private int totalpendingApproval;
+	private String securityQuestion;
+	private String answer;
 	
 	
-	public OnlineAdminRole(String userName, String password, int totalActiveUser,
+	public OnlineAdminRole(String userName, String password, int totalActiveUser, String ques, String ans, 
 			int totalActiveShopkeepers, int totalProductAdded, int totalRatingReceived, int totalpendingApproval) {
 		super();
 		this.userName = userName;
@@ -30,7 +32,31 @@ public class OnlineAdminRole {
 		this.totalProductAdded = totalProductAdded;
 		this.totalRatingReceived = totalRatingReceived;
 		this.totalpendingApproval = totalpendingApproval;
+		this.securityQuestion = ques;
+		this.answer = ans;
 	}
+	
+	
+	public String getSecurityQuestion() {
+		return securityQuestion;
+	}
+
+
+	public void setSecurityQuestion(String securityQuestion) {
+		this.securityQuestion = securityQuestion;
+	}
+
+
+	public String getAnswer() {
+		return answer;
+	}
+
+
+	public void setAnswer(String answer) {
+		this.answer = answer;
+	}
+
+
 	public int getAdminRole() {
 		return AdminRole;
 	}
@@ -84,7 +110,8 @@ public class OnlineAdminRole {
 		return "OnlineAdminRole [AdminRole=" + AdminRole + ", userName=" + userName + ", password=" + password
 				+ ", totalActiveUser=" + totalActiveUser + ", totalActiveShopkeepers=" + totalActiveShopkeepers
 				+ ", totalProductAdded=" + totalProductAdded + ", totalRatingReceived=" + totalRatingReceived
-				+ ", totalpendingApproval=" + totalpendingApproval + "]";
+				+ ", totalpendingApproval=" + totalpendingApproval + ", securityQuestion=" + securityQuestion
+				+ ", answer=" + answer + "]";
 	}
 	
 	
