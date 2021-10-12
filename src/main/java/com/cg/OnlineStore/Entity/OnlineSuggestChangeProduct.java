@@ -6,7 +6,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 @Entity
-public class OnlineSuggestChangeOnProduct {
+public class OnlineSuggestChangeProduct {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -18,7 +18,7 @@ public class OnlineSuggestChangeOnProduct {
 	private boolean isAccepted;
 	
 	
-	public OnlineSuggestChangeOnProduct(String toShopKeeper, String byUserId, String productItemName,
+	public OnlineSuggestChangeProduct(String toShopKeeper, String byUserId, String productItemName,
 			String changeDetails, boolean accepted) {
 		super();
 		this.toShopKeeper = toShopKeeper;

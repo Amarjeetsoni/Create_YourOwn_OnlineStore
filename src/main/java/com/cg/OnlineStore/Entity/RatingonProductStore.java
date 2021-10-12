@@ -6,7 +6,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 @Entity
-public class RatingonProductByShopKeeper {
+public class RatingonProductStore {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -17,7 +17,7 @@ public class RatingonProductByShopKeeper {
 	private String Message;
 	private String category;
 	private String ratingBy;
-	public RatingonProductByShopKeeper(double rating, String productName, String addedByShopKeeper,
+	public RatingonProductStore(double rating, String productName, String addedByShopKeeper,
 			String message, String c, String ratingBy) {
 		super();
 		this.rating = rating;

@@ -7,7 +7,7 @@ import com.cg.OnlineStore.Entity.OnlineChatDetails;
 import com.cg.OnlineStore.Entity.OnlineShopKeeper;
 import com.cg.OnlineStore.Entity.OnlineUser;
 import com.cg.OnlineStore.Entity.RatingOnShopKeeper;
-import com.cg.OnlineStore.Entity.RatingonProductByShopKeeper;
+import com.cg.OnlineStore.Entity.RatingonProductStore;
 import com.cg.OnlineStore.usedClasses.OnlineAdminDashboardDetails;
 
 public class AdminServiceImpl implements AdminService {
@@ -79,7 +79,7 @@ public class AdminServiceImpl implements AdminService {
 	}
 
 	@Override
-	public List<RatingonProductByShopKeeper> getListOfRatingOnProduct() {
+	public List<RatingonProductStore> getListOfRatingOnProduct() {
 		// TODO Auto-generated method stub
 		return null;
 	}

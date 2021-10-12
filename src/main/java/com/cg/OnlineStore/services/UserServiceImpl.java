@@ -2,24 +2,41 @@ package com.cg.OnlineStore.services;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.cg.OnlineStore.Entity.OnlineChatDetails;
 import com.cg.OnlineStore.Entity.OnlineProductDetails;
 import com.cg.OnlineStore.Entity.OnlineShopKeeper;
-import com.cg.OnlineStore.Entity.OnlineSuggestChangeOnProduct;
+import com.cg.OnlineStore.Entity.OnlineSuggestChangeProduct;
 import com.cg.OnlineStore.Entity.OnlineUser;
-import com.cg.OnlineStore.Entity.RatingonProductByShopKeeper;
+import com.cg.OnlineStore.Entity.RatingonProductStore;
+import com.cg.OnlineStore.dao.OnlineUserDao;
 import com.cg.OnlineStore.usedClasses.OnlineUserDashboardDetails;
 
 @Service
 public class UserServiceImpl implements UserServices {
 
+	@Autowired
+	private OnlineUserDao userDao;
 	
 	@Override
-	public boolean isUserDtailsCorrect(OnlineUser user) {
-		// TODO Auto-generated method stub
-		return false;
+	public String isUserDtailsCorrect(String email, String MobileNumber) {
+		List<OnlineUser> allUser = userDao.findAll();
+		long checkMail = allUser.stream().filter(t->t.getEmailId().equals(email)).count();
+		long checkNumber = allUser.stream().filter(t->t.getMobileNumber().equals(MobileNumber)).count();
+		if(checkMail > 0 && checkNumber > 0) {
+			return "Email Id and Mobile Number both are Already Exist";
+		}
+		else if(checkMail > 0) {
+			return "Email Id Already exists";
+		}
+		else if(checkNumber > 0) {
+			return "Mobile Number Already Exists";
+		}
+		else {
+			return "success";
+		}
 	}
 
 	@Override
@@ -95,13 +112,13 @@ public class UserServiceImpl implements UserServices {
 	}
 
 	@Override
-	public List<RatingonProductByShopKeeper> showAllRatingByUser(String userEmailId) {
+	public List<RatingonProductStore> showAllRatingByUser(String userEmailId) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public boolean SuggestChange(OnlineSuggestChangeOnProduct prod) {
+	public boolean SuggestChange(OnlineSuggestChangeProduct prod) {
 		// TODO Auto-generated method stub
 		return false;
 	}

@@ -7,9 +7,9 @@ import org.springframework.stereotype.Service;
 import com.cg.OnlineStore.Entity.OnlineChatDetails;
 import com.cg.OnlineStore.Entity.OnlineProductDetails;
 import com.cg.OnlineStore.Entity.OnlineShopKeeper;
-import com.cg.OnlineStore.Entity.OnlineSuggestChangeOnProduct;
+import com.cg.OnlineStore.Entity.OnlineSuggestChangeProduct;
 import com.cg.OnlineStore.Entity.RatingOnShopKeeper;
-import com.cg.OnlineStore.Entity.RatingonProductByShopKeeper;
+import com.cg.OnlineStore.Entity.RatingonProductStore;
 import com.cg.OnlineStore.usedClasses.OnlineShopKeeperDashboardDetails;
 
 @Service
@@ -82,13 +82,13 @@ public class ShopKeeperServiceImpl implements ShopkeeperServices {
 	}
 
 	@Override
-	public boolean seeSuggestion(OnlineSuggestChangeOnProduct product) {
+	public boolean seeSuggestion(OnlineSuggestChangeProduct product) {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
-	public List<RatingonProductByShopKeeper> getAllrating() {
+	public List<RatingonProductStore> getAllrating() {
 		// TODO Auto-generated method stub
 		return null;
 	}
