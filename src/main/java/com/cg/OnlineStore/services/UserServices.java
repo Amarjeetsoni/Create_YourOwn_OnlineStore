@@ -16,7 +16,7 @@ public interface UserServices {
 	
 	public boolean registerUser(OnlineUser user);
 	
-	public OnlineUser getUserDetails();
+	public OnlineUser getUserDetails(String emailId);
 	
 	public OnlineUserDashboardDetails getUserDashboardDetails();
 	

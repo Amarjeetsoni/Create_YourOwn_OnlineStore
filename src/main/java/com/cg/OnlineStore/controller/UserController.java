@@ -33,10 +33,28 @@ public class UserController {
 	}
 	
 	@PostMapping("/saveUser")
-	public ResponseEntity<Object> insertDetails(@RequestBody OnlineUser user){
-//		OnlineUser user = new O
-		return null;
+	public ResponseEntity<Object> insertDetails(@RequestBody GetNewUserDetail uDetail){
+		OnlineUser user = new OnlineUser(uDetail.userName, uDetail.password, uDetail.emailId, uDetail.mobileNumber, "User", uDetail.securityQuestion, uDetail.securityAnswer);
+		if(userService.registerUser(user)) {
+			return new ResponseEntity<Object>("Details Saved Successfully!", HttpStatus.OK);
+		}
+		else {
+			return new ResponseEntity<Object>("Something wents wrong!!", HttpStatus.NOT_ACCEPTABLE);
+		}
 	}
+	
+	@PostMapping("/login")
+	public ResponseEntity<Object> loginDetails(@RequestBody GetUserNamePassword detail){
+		OnlineUser user = userService.logIn(detail.email, detail.password);
+		if(user == null) {
+			return new ResponseEntity<Object>("UserName/Password is wrong!", HttpStatus.UNAUTHORIZED);
+		}
+		else {
+			return new ResponseEntity<Object>(user, HttpStatus.OK);
+		}
+	}
+	
+	
 	
 }
 
@@ -51,4 +69,8 @@ class GetNewUserDetail{
 	public String mobileNumber;
 	public String securityQuestion;
 	public String securityAnswer;
+}
+class GetUserNamePassword{
+	public String email;
+	public String password;
 }

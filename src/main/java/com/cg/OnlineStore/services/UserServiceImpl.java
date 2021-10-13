@@ -2,6 +2,7 @@ package com.cg.OnlineStore.services;
 
 import java.util.List;
 
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -41,12 +42,12 @@ public class UserServiceImpl implements UserServices {
 
 	@Override
 	public boolean registerUser(OnlineUser user) {
-		// TODO Auto-generated method stub
-		return false;
+		userDao.save(user);
+		return true;
 	}
 
 	@Override
-	public OnlineUser getUserDetails() {
+	public OnlineUser getUserDetails(String emailId) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -95,8 +96,19 @@ public class UserServiceImpl implements UserServices {
 
 	@Override
 	public OnlineUser logIn(String userName, String password) {
-		// TODO Auto-generated method stub
-		return null;
+		OnlineUser allUser = userDao.findByEmailId(userName);
+		if(allUser == null) {
+			return null;
+		}
+		else {
+			if(allUser.getPassword().equals(password)) {
+				return allUser;
+			}
+			else {
+				return null;
+			}
+		}
+		
 	}
 
 	@Override

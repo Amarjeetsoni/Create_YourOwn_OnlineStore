@@ -18,6 +18,9 @@ public class OnlineUser {
 	private String securityQuestion;
 	private String securityAnswer;
 
+	public OnlineUser(){
+		
+	}
 	
 	public OnlineUser(String userName, String password, String emailId, String mobileNumber, String role, String securityQuestion, String securityAnswer) {
 		super();
