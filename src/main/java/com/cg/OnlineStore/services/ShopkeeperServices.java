@@ -12,13 +12,15 @@ import com.cg.OnlineStore.usedClasses.OnlineShopKeeperDashboardDetails;
 
 public interface ShopkeeperServices {
 
-	public boolean checkDetail(OnlineShopKeeper shopKeeper);
+	public String checkDetail(String email, String mobileNumber);
 	
 	public boolean registerShop(OnlineShopKeeper shopDetail);
 	
+	public String checkSecurityQuestionDetails(String UserName, String question, String answer);
+	
 	public boolean changePassword(String userName, String password);
 	
-	public boolean changeSecurityQuestion(String question, String answer);
+	public boolean changeSecurityQuestion(String email, String question, String answer);
 	
 	public OnlineShopKeeper login(String userName, String password);
 	

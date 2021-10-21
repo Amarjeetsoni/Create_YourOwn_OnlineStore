@@ -2,41 +2,72 @@ package com.cg.OnlineStore.services;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.cg.OnlineStore.Entity.OnlineChatDetails;
 import com.cg.OnlineStore.Entity.OnlineProductDetails;
 import com.cg.OnlineStore.Entity.OnlineShopKeeper;
 import com.cg.OnlineStore.Entity.OnlineSuggestChangeProduct;
+import com.cg.OnlineStore.Entity.OnlineUser;
 import com.cg.OnlineStore.Entity.RatingOnShopKeeper;
 import com.cg.OnlineStore.Entity.RatingonProductStore;
+import com.cg.OnlineStore.dao.OnlineShopkeeperDao;
+import com.cg.OnlineStore.dao.OnlineUserDao;
 import com.cg.OnlineStore.usedClasses.OnlineShopKeeperDashboardDetails;
 
 @Service
 public class ShopKeeperServiceImpl implements ShopkeeperServices {
 
+	@Autowired
+	private OnlineUserDao userDao;
+	@Autowired
+	private OnlineShopkeeperDao shopkeeperDao;
+	
 	@Override
-	public boolean checkDetail(OnlineShopKeeper shopKeeper) {
-		// TODO Auto-generated method stub
-		return false;
+	public String checkDetail(String email, String MobileNumber) {
+		List<OnlineUser> allUser = userDao.findAll();
+		List<OnlineShopKeeper> allShopKeeper = shopkeeperDao.findAll();
+		long checkMobileShop = allShopKeeper.stream().filter(t->t.getMobileNumber().equals(MobileNumber)).count();
+		long checkMailShop = allShopKeeper.stream().filter(t->t.getEmailId().equals(email)).count();
+		long checkMail = allUser.stream().filter(t->t.getEmailId().equals(email)).count();
+		long checkNumber = allUser.stream().filter(t->t.getMobileNumber().equals(MobileNumber)).count();
+		if((checkMail > 0 && checkNumber > 0) || (checkMobileShop > 0 && checkMailShop > 0)) {
+			return "Email Id and Mobile Number both are Already Exist";
+		}
+		else if(checkMail > 0 || checkMailShop > 0) {
+			return "Email Id Already exists";
+		}
+		else if(checkNumber > 0 || checkMobileShop > 0) {
+			return "Mobile Number Already Exists";
+		}
+		else {
+			return "success";
+		}
 	}
 
 	@Override
 	public boolean registerShop(OnlineShopKeeper shopDetail) {
-		// TODO Auto-generated method stub
-		return false;
+		shopkeeperDao.save(shopDetail);
+		return true;
 	}
 
 	@Override
 	public boolean changePassword(String userName, String password) {
-		// TODO Auto-generated method stub
-		return false;
+		if(password.equals("") || password == null) {
+			return false;
+		}
+		shopkeeperDao.setUserPasswordByemail(password, userName);
+		return true;
 	}
 
 	@Override
-	public boolean changeSecurityQuestion(String question, String answer) {
-		// TODO Auto-generated method stub
-		return false;
+	public boolean changeSecurityQuestion(String email, String question, String answer) {
+		if(email == null || question == null || answer == null) {
+			return false;
+		}
+		shopkeeperDao.setNewSecurityQuestion(question, answer, email);
+		return true;
 	}
 
 	@Override
@@ -109,6 +140,23 @@ public class ShopKeeperServiceImpl implements ShopkeeperServices {
 	public boolean giveSuggestionToAdmin(String message) {
 		// TODO Auto-generated method stub
 		return false;
+	}
+
+	@Override
+	public String checkSecurityQuestionDetails(String Username, String question, String answer) {
+		OnlineShopKeeper shop = shopkeeperDao.findByemailId(Username);
+		if(shop == null) {
+			return "No User Exist with entered MailID !";
+		}
+		if(shop.getSecurityQuestion().equals(question)) {
+			if(shop.getAnswer().equals(answer)) {
+				return "success !";
+			}else {
+				return "Entered Security Answer is wrong!";
+			}
+		}else {
+			return "Entered Security Question is wrong";
+		}
 	}
 
 }

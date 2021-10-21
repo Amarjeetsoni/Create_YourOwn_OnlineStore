@@ -12,6 +12,7 @@ import com.cg.OnlineStore.Entity.OnlineShopKeeper;
 import com.cg.OnlineStore.Entity.OnlineSuggestChangeProduct;
 import com.cg.OnlineStore.Entity.OnlineUser;
 import com.cg.OnlineStore.Entity.RatingonProductStore;
+import com.cg.OnlineStore.dao.OnlineShopkeeperDao;
 import com.cg.OnlineStore.dao.OnlineUserDao;
 import com.cg.OnlineStore.usedClasses.OnlineUserDashboardDetails;
 
@@ -20,19 +21,24 @@ public class UserServiceImpl implements UserServices {
 
 	@Autowired
 	private OnlineUserDao userDao;
+	@Autowired
+	private OnlineShopkeeperDao shopkeeperDao;
 	
 	@Override
 	public String isUserDtailsCorrect(String email, String MobileNumber) {
 		List<OnlineUser> allUser = userDao.findAll();
+		List<OnlineShopKeeper> allShopKeeper = shopkeeperDao.findAll();
+		long checkMobileShop = allShopKeeper.stream().filter(t->t.getMobileNumber().equals(MobileNumber)).count();
+		long checkMailShop = allShopKeeper.stream().filter(t->t.getEmailId().equals(email)).count();
 		long checkMail = allUser.stream().filter(t->t.getEmailId().equals(email)).count();
 		long checkNumber = allUser.stream().filter(t->t.getMobileNumber().equals(MobileNumber)).count();
-		if(checkMail > 0 && checkNumber > 0) {
+		if((checkMail > 0 && checkNumber > 0) || (checkMobileShop > 0 && checkMailShop > 0)) {
 			return "Email Id and Mobile Number both are Already Exist";
 		}
-		else if(checkMail > 0) {
+		else if(checkMail > 0 || checkMailShop > 0) {
 			return "Email Id Already exists";
 		}
-		else if(checkNumber > 0) {
+		else if(checkNumber > 0 || checkMobileShop > 0) {
 			return "Mobile Number Already Exists";
 		}
 		else {

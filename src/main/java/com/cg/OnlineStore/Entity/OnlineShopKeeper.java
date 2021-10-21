@@ -1,6 +1,5 @@
 package com.cg.OnlineStore.Entity;
 
-import java.util.ArrayList;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -15,6 +14,8 @@ public class OnlineShopKeeper {
 	private String shopKeeperUserName;
 	private String shopKeeperPassword;
 	private int totalProductAdded;
+	private String emailId;
+	private String mobileNumber;
 	private String nameOfShop;
 	private String Address;
 	private String shopType;
@@ -24,29 +25,51 @@ public class OnlineShopKeeper {
 	private String securityQuestion;
 	private String answer;
 	
-	public OnlineShopKeeper(String shopKeeperUserName, String shopType, String shopKeeperPassword, int totalProductAdded,
-			String nameOfShop, String address, double rating, ArrayList<String> ratingMessage, boolean isApproved, boolean isActive, String Ques, String ans) {
+	public OnlineShopKeeper(){
+		
+	}
+		
+	public OnlineShopKeeper(String shopKeeperUserName, String shopKeeperPassword, int totalProductAdded, String emailId,
+			String mobileNumber, String nameOfShop, String address, String shopType, double rating, boolean isApproved,
+			boolean isActive, String securityQuestion, String answer) {
 		super();
 		this.shopKeeperUserName = shopKeeperUserName;
 		this.shopKeeperPassword = shopKeeperPassword;
 		this.totalProductAdded = totalProductAdded;
-		this.isApproved = isApproved;
+		this.emailId = emailId;
+		this.mobileNumber = mobileNumber;
 		this.nameOfShop = nameOfShop;
 		Address = address;
-		this.rating = rating;
-		this.isActive = isActive;
 		this.shopType = shopType;
-		this.securityQuestion = Ques;
-		this.answer = ans;
+		this.rating = rating;
+		this.isApproved = isApproved;
+		this.isActive = isActive;
+		this.securityQuestion = securityQuestion;
+		this.answer = answer;
 	}
+
 	
-	
-	
-	
+
+
+	public String getEmailId() {
+		return emailId;
+	}
+
+	public void setEmailId(String emailId) {
+		this.emailId = emailId;
+	}
+
+	public String getMobileNumber() {
+		return mobileNumber;
+	}
+
+	public void setMobileNumber(String mobileNumber) {
+		this.mobileNumber = mobileNumber;
+	}
+
 	public String getSecurityQuestion() {
 		return securityQuestion;
 	}
-
 
 
 
@@ -149,9 +172,10 @@ public class OnlineShopKeeper {
 	public String toString() {
 		return "OnlineShopKeeper [shopId=" + shopId + ", shopKeeperUserName=" + shopKeeperUserName
 				+ ", shopKeeperPassword=" + shopKeeperPassword + ", totalProductAdded=" + totalProductAdded
-				+ ", nameOfShop=" + nameOfShop + ", Address=" + Address + ", shopType=" + shopType + ", rating="
-				+ rating + ", isApproved=" + isApproved + ", isActive=" + isActive + ", securityQuestion="
-				+ securityQuestion + ", answer=" + answer + "]";
+				+ ", emailId=" + emailId + ", mobileNumber=" + mobileNumber + ", nameOfShop=" + nameOfShop
+				+ ", Address=" + Address + ", shopType=" + shopType + ", rating=" + rating + ", isApproved="
+				+ isApproved + ", isActive=" + isActive + ", securityQuestion=" + securityQuestion + ", answer="
+				+ answer + "]";
 	}
 	
 	
