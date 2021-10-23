@@ -14,12 +14,31 @@ public class OnlineChatDetails {
 	private String chatFrom;
 	private String chatTo;
 	private String message;
-	public OnlineChatDetails(int chatId, String chatFrom, String chatTo, String message) {
+	private String date;
+	
+	public OnlineChatDetails() {
+		// TODO Auto-generated constructor stub
+	}
+	
+	public OnlineChatDetails(String chatFrom, String chatTo, String message, String date) {
 		super();
 		this.chatFrom = chatFrom;
 		this.chatTo = chatTo;
 		this.message = message;
+		this.date = date;
 	}
+	
+	
+	public String getDate() {
+		return date;
+	}
+
+
+	public void setDate(String date) {
+		this.date = date;
+	}
+
+
 	public int getChatId() {
 		return chatId;
 	}
@@ -47,7 +66,7 @@ public class OnlineChatDetails {
 	@Override
 	public String toString() {
 		return "OnlineChatDetails [chatId=" + chatId + ", chatFrom=" + chatFrom + ", chatTo=" + chatTo + ", message="
-				+ message + "]";
+				+ message + "Date " + date + "]";
 	}
 	
 	

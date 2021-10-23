@@ -1,16 +1,27 @@
 package com.cg.OnlineStore.controller;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.cg.OnlineStore.Entity.OnlineChatDetails;
+import com.cg.OnlineStore.Entity.OnlineProductDetails;
 import com.cg.OnlineStore.Entity.OnlineShopKeeper;
 import com.cg.OnlineStore.services.ShopkeeperServices;
 
@@ -35,9 +46,15 @@ public class ShopKeeperController {
 	
 	@PostMapping("/saveShopkeeper")
 	public ResponseEntity<Object> saveShopkeeperDetail(@RequestBody OnlineShopkeeperDetail shopkeeperdetail){
+		String str = shopKeeper.checkDetail(shopkeeperdetail.emailId, shopkeeperdetail.mobileNumber);
+		if(str.equals("success")) {
 		OnlineShopKeeper shopkeeper = new OnlineShopKeeper(shopkeeperdetail.shopKeeperUserName, shopkeeperdetail.shopKeeperPassword, shopkeeperdetail.totalProductAdded, shopkeeperdetail.emailId, shopkeeperdetail.mobileNumber, shopkeeperdetail.nameOfShop, shopkeeperdetail.Address, shopkeeperdetail.shopType, 0.0, false, false, shopkeeperdetail.securityQuestion, shopkeeperdetail.answer);
 		shopKeeper.registerShop(shopkeeper);
 		return new ResponseEntity<Object> ("New Shop details Request Has been Sent to Admin. Please wait while admin approves it!", HttpStatus.OK);
+		}
+		else {
+			return new ResponseEntity<Object>(str,HttpStatus.BAD_REQUEST);
+		}
 	}
 	
 	@PostMapping("/validateSecurity")
@@ -49,7 +66,7 @@ public class ShopKeeperController {
 		return new ResponseEntity<Object>(str, HttpStatus.BAD_REQUEST);
 	}
 	
-	@PutMapping("/updatepassword")
+	@PostMapping("/updatepassword")
 	public ResponseEntity<Object> UpdatePassword(@RequestBody UsernamePassword user){
 		boolean temp = shopKeeper.changePassword(user.email, user.password);
 		if(temp) {
@@ -60,7 +77,7 @@ public class ShopKeeperController {
 		}
 	}
 	
-	@PutMapping("/updateSecurityQuestion")
+	@PostMapping("/updateSecurityQuestion")
 	public ResponseEntity<Object> UpdateQuestion(@RequestBody SecurityQuestion user){
 		boolean temp = shopKeeper.changeSecurityQuestion(user.email, user.question, user.answer);
 		if(temp) {
@@ -71,11 +88,109 @@ public class ShopKeeperController {
 		}
 	}
 	
+	@PostMapping("/login")
+	public ResponseEntity<Object> Login(@RequestBody UsernamePassword user){
+		OnlineShopKeeper detail = shopKeeper.login(user.email, user.password);
+		if(detail == null) {
+			return new ResponseEntity<Object>("UserName or Password is Wrong", HttpStatus.BAD_REQUEST);
+		}
+		else {
+
+			if(detail.isApproved()) {
+				return new ResponseEntity<Object>(detail, HttpStatus.OK);
+			}else {
+				return new ResponseEntity<Object>("Your Request is still pending with the Admin...Once He will approve then only you can login...Please cooprate with us untill then.", HttpStatus.OK);
+			}
+		}
+	}
+	
+	@PostMapping("/addproduct")
+	public ResponseEntity<Object> addProduct(@RequestBody ProductDetail detail){
+		OnlineProductDetails prod = new OnlineProductDetails(detail.productName, detail.price, detail.category, detail.imageLink, detail.description, 0.0, detail.addedByUserName);
+		shopKeeper.addProduct(prod);
+		return new ResponseEntity<Object>("Product Detail Save Successfully!", HttpStatus.OK);
+	}
+	
+	@GetMapping("/getProductList")
+	public ResponseEntity<Object> getListProduct(@RequestParam("username") String user){
+		List<OnlineProductDetails> prodList = shopKeeper.getProductList(user);
+		if(prodList.size() == 0) {
+			return new ResponseEntity<Object>("No Product Added By you in your Shop!", HttpStatus.NO_CONTENT);
+		}
+		else {
+			return new ResponseEntity<Object>(prodList, HttpStatus.OK);
+		}
+	}
+	
+	@GetMapping("/gettAllProduct")
+	public ResponseEntity<Object> getAllproductList(){
+		List<OnlineProductDetails> prodList = shopKeeper.getAllProduct();
+		if(prodList.size() == 0) {
+			return new ResponseEntity<Object>("No Product Available till now Please add some !!", HttpStatus.NOT_FOUND);
+		}else {
+			return new ResponseEntity<Object>(prodList, HttpStatus.OK);
+		}
+	}
+	
+	@PutMapping("/UpdateProduct")
+	public ResponseEntity<Object> updateProduct(@RequestBody OnlineProductDetails prod){
+		if(shopKeeper.updateProductDetail(prod)) {
+			return new ResponseEntity<Object>("Updated SuccessFully!!", HttpStatus.OK);
+		}
+		else {
+			return new ResponseEntity<Object>("Something Wents wrong!!", HttpStatus.BAD_REQUEST);
+		}
+	}
+	
+	@DeleteMapping("/deleteproduct")
+	public ResponseEntity<Object> deleteProduct(@RequestParam("Id") long id){
+		if(shopKeeper.deleteProductDetail(id)) {
+			return new ResponseEntity<Object>("Deleted successfully", HttpStatus.OK);
+		}
+		else {
+			return new ResponseEntity<Object>("Something wents Wrong!!", HttpStatus.BAD_REQUEST);
+		}
+	}
+	
+	@PostMapping("/saveChat")
+	public ResponseEntity<Object> SaveChat(@RequestBody OnlineChat chat){
+		Date date = Calendar.getInstance().getTime();
+		DateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd hh-mm-ss");
+		String strDate = dateFormat.format(date);
+		OnlineChatDetails chatto = new OnlineChatDetails(chat.from, chat.to, chat.message, strDate);
+		if(shopKeeper.storeChat(chatto)) {
+			return new ResponseEntity<Object>("Saved Successfully!", HttpStatus.OK);
+		}
+		else {
+			return new ResponseEntity<Object>("Something Wents wrong!!", HttpStatus.BAD_REQUEST);
+		}
+	}
+	
+	@GetMapping("/getchat")
+	public ResponseEntity<Object> getChat(@RequestParam("user1") String user1, @RequestParam("user2") String user2){
+		List<OnlineChatDetails> listchat = shopKeeper.getChat(user1, user2);
+		if(listchat.isEmpty()) {
+			return new ResponseEntity<Object>("No Chat Founded !", HttpStatus.NO_CONTENT);
+		}
+		else {
+			return new ResponseEntity<Object>(listchat, HttpStatus.OK);
+		}
+	}
+	
+	
+	
 	
 	
 	
 	
 }
+
+class OnlineChat{
+	public String from;
+	public String to;
+	public String message;
+}
+
 
 class OnlineShopkeeperDetail{
 	public String shopKeeperUserName;
@@ -86,9 +201,6 @@ class OnlineShopkeeperDetail{
 	public String nameOfShop;
 	public String Address;
 	public String shopType;
-	public double rating;
-	public boolean isApproved;
-	public boolean isActive;
 	public String securityQuestion;
 	public String answer;
 }
@@ -108,4 +220,13 @@ class SecurityQuestion{
 	public String email;
 	public String question;
 	public String answer;
+}
+
+class ProductDetail{
+	public String productName;
+	public double price;
+	public String category;
+	public String imageLink;
+	public String description;
+	public String addedByUserName;
 }

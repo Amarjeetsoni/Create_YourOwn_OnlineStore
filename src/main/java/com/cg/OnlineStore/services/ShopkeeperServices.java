@@ -28,13 +28,15 @@ public interface ShopkeeperServices {
 	
 	public boolean addProduct(OnlineProductDetails product);
 	
-	public List<OnlineProductDetails> getProductList();
+	public List<OnlineProductDetails> getProductList(String username);
 	
 	public boolean updateProductDetail(OnlineProductDetails product);
 	
-	public boolean deleteProductDetail(OnlineProductDetails product);
+	public boolean deleteProductDetail(long Id);
 	
 	public boolean storeChat(OnlineChatDetails ch);
+	
+	public List<OnlineChatDetails> getChat(String user1, String user2);
 	
 	public boolean seeSuggestion(OnlineSuggestChangeProduct product);
 	
@@ -45,5 +47,7 @@ public interface ShopkeeperServices {
 	public List<OnlineShopKeeper> getListOfShopKeeper();
 	
 	public boolean giveSuggestionToAdmin(String message);
+	
+	public List<OnlineProductDetails> getAllProduct();
 	
 }

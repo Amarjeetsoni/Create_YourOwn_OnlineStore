@@ -12,6 +12,8 @@ import com.cg.OnlineStore.Entity.OnlineSuggestChangeProduct;
 import com.cg.OnlineStore.Entity.OnlineUser;
 import com.cg.OnlineStore.Entity.RatingOnShopKeeper;
 import com.cg.OnlineStore.Entity.RatingonProductStore;
+import com.cg.OnlineStore.dao.OnlineChatDetailsDao;
+import com.cg.OnlineStore.dao.OnlineProductDetailsDao;
 import com.cg.OnlineStore.dao.OnlineShopkeeperDao;
 import com.cg.OnlineStore.dao.OnlineUserDao;
 import com.cg.OnlineStore.usedClasses.OnlineShopKeeperDashboardDetails;
@@ -23,6 +25,10 @@ public class ShopKeeperServiceImpl implements ShopkeeperServices {
 	private OnlineUserDao userDao;
 	@Autowired
 	private OnlineShopkeeperDao shopkeeperDao;
+	@Autowired
+	private OnlineProductDetailsDao productDao;
+	@Autowired
+	private OnlineChatDetailsDao chatDao;
 	
 	@Override
 	public String checkDetail(String email, String MobileNumber) {
@@ -72,8 +78,16 @@ public class ShopKeeperServiceImpl implements ShopkeeperServices {
 
 	@Override
 	public OnlineShopKeeper login(String userName, String password) {
-		// TODO Auto-generated method stub
-		return null;
+		OnlineShopKeeper shop = shopkeeperDao.findByemailId(userName);
+		if(shop == null) {
+			return null;
+		}
+		if(shop.getShopKeeperPassword().equals(password)) {
+			return shop;
+		}
+		else {
+			return null;
+		}
 	}
 
 	@Override
@@ -84,37 +98,38 @@ public class ShopKeeperServiceImpl implements ShopkeeperServices {
 
 	@Override
 	public boolean addProduct(OnlineProductDetails product) {
-		// TODO Auto-generated method stub
-		return false;
+		productDao.save(product);
+		return true;
+		
 	}
 
 	@Override
-	public List<OnlineProductDetails> getProductList() {
-		// TODO Auto-generated method stub
-		return null;
+	public List<OnlineProductDetails> getProductList(String UserName) {
+		return productDao.FindByaddedByUserName(UserName);
 	}
 
 	@Override
 	public boolean updateProductDetail(OnlineProductDetails product) {
-		// TODO Auto-generated method stub
-		return false;
+		productDao.save(product);
+		return true;
 	}
 
 	@Override
-	public boolean deleteProductDetail(OnlineProductDetails product) {
-		// TODO Auto-generated method stub
-		return false;
+	public boolean deleteProductDetail(long id) {
+		productDao.deleteById(id);
+		return true;
 	}
 
 	@Override
 	public boolean storeChat(OnlineChatDetails ch) {
-		// TODO Auto-generated method stub
-		return false;
+		chatDao.save(ch);
+		return true;
 	}
 
 	@Override
 	public boolean seeSuggestion(OnlineSuggestChangeProduct product) {
-		// TODO Auto-generated method stub
+		
+		
 		return false;
 	}
 
@@ -157,6 +172,17 @@ public class ShopKeeperServiceImpl implements ShopkeeperServices {
 		}else {
 			return "Entered Security Question is wrong";
 		}
+	}
+
+	@Override
+	public List<OnlineProductDetails> getAllProduct() {
+		return productDao.findAll();
+	}
+
+	@Override
+	public List<OnlineChatDetails> getChat(String user1, String user2) {
+		return chatDao.getOnlineChat(user1, user2);
+		
 	}
 
 }

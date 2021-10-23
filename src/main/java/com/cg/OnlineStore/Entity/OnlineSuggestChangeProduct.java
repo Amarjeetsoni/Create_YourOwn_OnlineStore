@@ -15,20 +15,34 @@ public class OnlineSuggestChangeProduct {
 	private String byUserId;
 	private String ProductItemName;
 	private String changeDetails;
+	private String commentShopKeeper;
 	private boolean isAccepted;
 	
+	public OnlineSuggestChangeProduct(){
+		
+	}
 	
 	public OnlineSuggestChangeProduct(String toShopKeeper, String byUserId, String productItemName,
-			String changeDetails, boolean accepted) {
+			String changeDetails, boolean accepted, String commentShopKeeper) {
 		super();
 		this.toShopKeeper = toShopKeeper;
 		this.byUserId = byUserId;
 		ProductItemName = productItemName;
 		this.changeDetails = changeDetails;
 		this.isAccepted = accepted;
+		this.commentShopKeeper = commentShopKeeper;
 	}
 	
 	
+	
+	public String getCommentShopKeeper() {
+		return commentShopKeeper;
+	}
+
+	public void setCommentShopKeeper(String commentShopKeeper) {
+		this.commentShopKeeper = commentShopKeeper;
+	}
+
 	public int getSuggestChangeId() {
 		return suggestChangeId;
 	}
