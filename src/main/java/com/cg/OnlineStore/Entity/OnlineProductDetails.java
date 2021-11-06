@@ -17,11 +17,15 @@ public class OnlineProductDetails {
 	private String imageLink;
 	private String description;
 	private double rating;
+	private int totalRating;
 	private String addedByUserName;
 	
 	
+	public OnlineProductDetails() {
+		super();
+	}
 	public OnlineProductDetails(String productName, double price, String category, String imageLink, String description,
-			double rating, String addedByUserName) {
+			double rating, String addedByUserName, int totalRating) {
 		super();
 		this.productName = productName;
 		this.price = price;
@@ -30,6 +34,15 @@ public class OnlineProductDetails {
 		this.description = description;
 		this.rating = rating;
 		this.addedByUserName = addedByUserName;
+		this.totalRating = totalRating;
+	}
+	
+	
+	public int getTotalRating() {
+		return totalRating;
+	}
+	public void setTotalRating(int totalRating) {
+		this.totalRating = totalRating;
 	}
 	public int getProductId() {
 		return productId;

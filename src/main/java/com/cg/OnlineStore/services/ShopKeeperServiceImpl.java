@@ -15,7 +15,10 @@ import com.cg.OnlineStore.Entity.RatingonProductStore;
 import com.cg.OnlineStore.dao.OnlineChatDetailsDao;
 import com.cg.OnlineStore.dao.OnlineProductDetailsDao;
 import com.cg.OnlineStore.dao.OnlineShopkeeperDao;
+import com.cg.OnlineStore.dao.OnlineSuggestChangeOnProductDao;
 import com.cg.OnlineStore.dao.OnlineUserDao;
+import com.cg.OnlineStore.dao.RatingOnShopKeeperDao;
+import com.cg.OnlineStore.dao.RatingonProductByShopKeeperDao;
 import com.cg.OnlineStore.usedClasses.OnlineShopKeeperDashboardDetails;
 
 @Service
@@ -29,6 +32,12 @@ public class ShopKeeperServiceImpl implements ShopkeeperServices {
 	private OnlineProductDetailsDao productDao;
 	@Autowired
 	private OnlineChatDetailsDao chatDao;
+	@Autowired
+	private OnlineSuggestChangeOnProductDao changeDao;
+	@Autowired 
+	private RatingonProductByShopKeeperDao ratingDao;
+	@Autowired
+	private RatingOnShopKeeperDao shopRatingDao;
 	
 	@Override
 	public String checkDetail(String email, String MobileNumber) {
@@ -92,7 +101,6 @@ public class ShopKeeperServiceImpl implements ShopkeeperServices {
 
 	@Override
 	public OnlineShopKeeperDashboardDetails getDetails() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -105,7 +113,7 @@ public class ShopKeeperServiceImpl implements ShopkeeperServices {
 
 	@Override
 	public List<OnlineProductDetails> getProductList(String UserName) {
-		return productDao.FindByaddedByUserName(UserName);
+		return productDao.findByAddedByUserName(UserName);
 	}
 
 	@Override
@@ -127,33 +135,28 @@ public class ShopKeeperServiceImpl implements ShopkeeperServices {
 	}
 
 	@Override
-	public boolean seeSuggestion(OnlineSuggestChangeProduct product) {
-		
-		
-		return false;
+	public List<OnlineSuggestChangeProduct> seeAllSuggestion(String name) {
+	    return changeDao.findByToShopKeeper(name);
 	}
 
 	@Override
-	public List<RatingonProductStore> getAllrating() {
-		// TODO Auto-generated method stub
-		return null;
+	public List<RatingonProductStore> getAllratingOnProduct(String userName) {
+		return ratingDao.findByAddedByShopKeeper(userName);
 	}
 
 	@Override
-	public List<RatingOnShopKeeper> getAllShopRating() {
-		// TODO Auto-generated method stub
-		return null;
+	public List<RatingOnShopKeeper> getAllShopRating(int Id) {
+		return shopRatingDao.findByCustomerUserName(Id);
 	}
 
 	@Override
 	public List<OnlineShopKeeper> getListOfShopKeeper() {
-		// TODO Auto-generated method stub
-		return null;
+		return shopkeeperDao.findAll();
 	}
 
 	@Override
-	public boolean giveSuggestionToAdmin(String message) {
-		// TODO Auto-generated method stub
+	public boolean giveSuggestionToAdmin(String from, String message) {
+		
 		return false;
 	}
 
@@ -183,6 +186,20 @@ public class ShopKeeperServiceImpl implements ShopkeeperServices {
 	public List<OnlineChatDetails> getChat(String user1, String user2) {
 		return chatDao.getOnlineChat(user1, user2);
 		
+	}
+
+	@Override
+	public boolean takeActionOnSuggestion(long suggestionId, boolean isAccepted, String comment) {
+		OnlineSuggestChangeProduct suggestion = changeDao.getById(suggestionId);
+		suggestion.setAccepted(isAccepted);
+		suggestion.setCommentShopKeeper(comment);
+		changeDao.save(suggestion);
+		return true;
+	}
+
+	@Override
+	public List<RatingonProductStore> getRatingByProductName(int id) {
+		return ratingDao.findByProductName(id);
 	}
 
 }

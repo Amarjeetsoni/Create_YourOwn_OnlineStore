@@ -12,13 +12,25 @@ public class RatingOnShopKeeper {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int ratingId;
 	private double rating;
-	private String customerUserName;
+	private int customerUserName;
 	private String Message;
-	public RatingOnShopKeeper(double rating, String customerUserName, String message) {
+	private int shopkeeperId;
+	public RatingOnShopKeeper(){
+		
+	}
+	public RatingOnShopKeeper(double rating, int customerUserName, String message, int shopkeeperId) {
 		super();
 		this.rating = rating;
 		this.customerUserName = customerUserName;
 		Message = message;
+		this.shopkeeperId = shopkeeperId;
+	}
+	
+	public int getShopkeeperId() {
+		return shopkeeperId;
+	}
+	public void setShopkeeperId(int shopkeeperId) {
+		this.shopkeeperId = shopkeeperId;
 	}
 	public int getRatingId() {
 		return ratingId;
@@ -32,10 +44,10 @@ public class RatingOnShopKeeper {
 	public void setRating(double rating) {
 		this.rating = rating;
 	}
-	public String getCustomerUserName() {
+	public int getCustomerUserName() {
 		return customerUserName;
 	}
-	public void setCustomerUserName(String customerUserName) {
+	public void setCustomerUserName(int customerUserName) {
 		this.customerUserName = customerUserName;
 	}
 	public String getMessage() {

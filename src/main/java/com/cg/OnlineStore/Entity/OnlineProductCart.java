@@ -14,6 +14,9 @@ public class OnlineProductCart {
 	private int productID;
 	private String byUser;
 	
+	public OnlineProductCart() {
+		
+	}
 	public OnlineProductCart(int productID, String byUser) {
 		super();
 		this.productID = productID;

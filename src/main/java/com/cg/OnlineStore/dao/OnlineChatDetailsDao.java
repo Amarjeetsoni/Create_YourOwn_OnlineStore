@@ -14,7 +14,7 @@ public interface OnlineChatDetailsDao extends JpaRepository<OnlineChatDetails, L
 	
 	
 	@Modifying
-	@Query("Select OnlineChatDetails chat where (chat.from = ?1 and chat.to = ?2) or (chat.from = ?2 and chat.to = ?1)")
+	@Query("SELECT chat FROM OnlineChatDetails chat WHERE (chat.chatFrom = ?1 AND chat.chatTo = ?2) OR (chat.chatFrom = ?2 AND chat.chatTo = ?1)")
 	List<OnlineChatDetails> getOnlineChat(String user1, String user2);
 	
 	

@@ -11,5 +11,6 @@ import com.cg.OnlineStore.Entity.OnlineProductDetails;
 @Transactional
 public interface OnlineProductDetailsDao extends JpaRepository<OnlineProductDetails, Long> {
 
-	public List<OnlineProductDetails> FindByaddedByUserName(String name);
+	public List<OnlineProductDetails> findByAddedByUserName(String name);
+	
 }

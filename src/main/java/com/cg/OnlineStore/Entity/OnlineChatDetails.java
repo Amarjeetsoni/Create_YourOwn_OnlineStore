@@ -14,10 +14,10 @@ public class OnlineChatDetails {
 	private String chatFrom;
 	private String chatTo;
 	private String message;
-	private String date;
+	private String dateVal;
 	
 	public OnlineChatDetails() {
-		// TODO Auto-generated constructor stub
+		
 	}
 	
 	public OnlineChatDetails(String chatFrom, String chatTo, String message, String date) {
@@ -25,17 +25,17 @@ public class OnlineChatDetails {
 		this.chatFrom = chatFrom;
 		this.chatTo = chatTo;
 		this.message = message;
-		this.date = date;
+		this.dateVal = date;
 	}
 	
 	
 	public String getDate() {
-		return date;
+		return dateVal;
 	}
 
 
 	public void setDate(String date) {
-		this.date = date;
+		this.dateVal = date;
 	}
 
 
@@ -66,7 +66,7 @@ public class OnlineChatDetails {
 	@Override
 	public String toString() {
 		return "OnlineChatDetails [chatId=" + chatId + ", chatFrom=" + chatFrom + ", chatTo=" + chatTo + ", message="
-				+ message + "Date " + date + "]";
+				+ message + "Date " + dateVal + "]";
 	}
 	
 	

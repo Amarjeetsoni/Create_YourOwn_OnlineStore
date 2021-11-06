@@ -13,7 +13,7 @@ public class OnlineSuggestChangeProduct {
 	private int suggestChangeId;
 	private String toShopKeeper;
 	private String byUserId;
-	private String ProductItemName;
+	private int ProductItemId;
 	private String changeDetails;
 	private String commentShopKeeper;
 	private boolean isAccepted;
@@ -22,12 +22,12 @@ public class OnlineSuggestChangeProduct {
 		
 	}
 	
-	public OnlineSuggestChangeProduct(String toShopKeeper, String byUserId, String productItemName,
+	public OnlineSuggestChangeProduct(String toShopKeeper, String byUserId, int productItemId,
 			String changeDetails, boolean accepted, String commentShopKeeper) {
 		super();
 		this.toShopKeeper = toShopKeeper;
 		this.byUserId = byUserId;
-		ProductItemName = productItemName;
+		this.ProductItemId = productItemId;
 		this.changeDetails = changeDetails;
 		this.isAccepted = accepted;
 		this.commentShopKeeper = commentShopKeeper;
@@ -75,11 +75,11 @@ public class OnlineSuggestChangeProduct {
 	public void setByUserId(String byUserId) {
 		this.byUserId = byUserId;
 	}
-	public String getProductItemName() {
-		return ProductItemName;
+	public int getProductItemId() {
+		return ProductItemId;
 	}
-	public void setProductItemName(String productItemName) {
-		ProductItemName = productItemName;
+	public void setProductItemName(int productItemId) {
+		this.ProductItemId = productItemId;
 	}
 	public String getChangeDetails() {
 		return changeDetails;
@@ -90,7 +90,7 @@ public class OnlineSuggestChangeProduct {
 	@Override
 	public String toString() {
 		return "OnlineSuggestChangeOnProduct [suggestChangeId=" + suggestChangeId + ", toShopKeeper=" + toShopKeeper
-				+ ", byUserId=" + byUserId + ", ProductItemName=" + ProductItemName + ", changeDetails=" + changeDetails
+				+ ", byUserId=" + byUserId + ", ProductItemId=" + ProductItemId + ", changeDetails=" + changeDetails
 				+ ", isAccepted=" + isAccepted + "]";
 	}
 	

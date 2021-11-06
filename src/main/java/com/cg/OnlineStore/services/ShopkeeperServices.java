@@ -38,15 +38,19 @@ public interface ShopkeeperServices {
 	
 	public List<OnlineChatDetails> getChat(String user1, String user2);
 	
-	public boolean seeSuggestion(OnlineSuggestChangeProduct product);
+	public List<OnlineSuggestChangeProduct> seeAllSuggestion(String name);
 	
-	public List<RatingonProductStore> getAllrating();
+	public boolean takeActionOnSuggestion(long suggestionId, boolean isAccepted, String comment);
 	
-	public List<RatingOnShopKeeper> getAllShopRating();
+	public List<RatingonProductStore> getAllratingOnProduct(String name);
+	
+	public List<RatingOnShopKeeper> getAllShopRating(int id);
+	
+	public List<RatingonProductStore> getRatingByProductName(int id);
 	
 	public List<OnlineShopKeeper> getListOfShopKeeper();
 	
-	public boolean giveSuggestionToAdmin(String message);
+	public boolean giveSuggestionToAdmin(String userName, String message);
 	
 	public List<OnlineProductDetails> getAllProduct();
 	

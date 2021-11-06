@@ -20,6 +20,7 @@ public class OnlineShopKeeper {
 	private String Address;
 	private String shopType;
 	private double rating;
+	private int totalRating;
 	private boolean isApproved;
 	private boolean isActive;
 	private String securityQuestion;
@@ -31,7 +32,7 @@ public class OnlineShopKeeper {
 		
 	public OnlineShopKeeper(String shopKeeperUserName, String shopKeeperPassword, int totalProductAdded, String emailId,
 			String mobileNumber, String nameOfShop, String address, String shopType, double rating, boolean isApproved,
-			boolean isActive, String securityQuestion, String answer) {
+			boolean isActive, String securityQuestion, String answer, int totalRating) {
 		super();
 		this.shopKeeperUserName = shopKeeperUserName;
 		this.shopKeeperPassword = shopKeeperPassword;
@@ -46,10 +47,16 @@ public class OnlineShopKeeper {
 		this.isActive = isActive;
 		this.securityQuestion = securityQuestion;
 		this.answer = answer;
+		this.totalRating = totalRating;
+	}
+    
+	public int getTotalRating() {
+		return totalRating;
 	}
 
-	
-
+	public void setTotalRating(int totalRating) {
+		this.totalRating = totalRating;
+	}
 
 	public String getEmailId() {
 		return emailId;

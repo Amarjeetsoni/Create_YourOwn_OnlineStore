@@ -6,6 +6,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.http.HttpStatus;
@@ -23,6 +24,9 @@ import org.springframework.web.bind.annotation.RestController;
 import com.cg.OnlineStore.Entity.OnlineChatDetails;
 import com.cg.OnlineStore.Entity.OnlineProductDetails;
 import com.cg.OnlineStore.Entity.OnlineShopKeeper;
+import com.cg.OnlineStore.Entity.OnlineSuggestChangeProduct;
+import com.cg.OnlineStore.Entity.RatingOnShopKeeper;
+import com.cg.OnlineStore.Entity.RatingonProductStore;
 import com.cg.OnlineStore.services.ShopkeeperServices;
 
 @SpringBootApplication
@@ -48,7 +52,7 @@ public class ShopKeeperController {
 	public ResponseEntity<Object> saveShopkeeperDetail(@RequestBody OnlineShopkeeperDetail shopkeeperdetail){
 		String str = shopKeeper.checkDetail(shopkeeperdetail.emailId, shopkeeperdetail.mobileNumber);
 		if(str.equals("success")) {
-		OnlineShopKeeper shopkeeper = new OnlineShopKeeper(shopkeeperdetail.shopKeeperUserName, shopkeeperdetail.shopKeeperPassword, shopkeeperdetail.totalProductAdded, shopkeeperdetail.emailId, shopkeeperdetail.mobileNumber, shopkeeperdetail.nameOfShop, shopkeeperdetail.Address, shopkeeperdetail.shopType, 0.0, false, false, shopkeeperdetail.securityQuestion, shopkeeperdetail.answer);
+		OnlineShopKeeper shopkeeper = new OnlineShopKeeper(shopkeeperdetail.shopKeeperUserName, shopkeeperdetail.shopKeeperPassword, shopkeeperdetail.totalProductAdded, shopkeeperdetail.emailId, shopkeeperdetail.mobileNumber, shopkeeperdetail.nameOfShop, shopkeeperdetail.Address, shopkeeperdetail.shopType, 0.0, false, false, shopkeeperdetail.securityQuestion, shopkeeperdetail.answer, 0);
 		shopKeeper.registerShop(shopkeeper);
 		return new ResponseEntity<Object> ("New Shop details Request Has been Sent to Admin. Please wait while admin approves it!", HttpStatus.OK);
 		}
@@ -106,7 +110,7 @@ public class ShopKeeperController {
 	
 	@PostMapping("/addproduct")
 	public ResponseEntity<Object> addProduct(@RequestBody ProductDetail detail){
-		OnlineProductDetails prod = new OnlineProductDetails(detail.productName, detail.price, detail.category, detail.imageLink, detail.description, 0.0, detail.addedByUserName);
+		OnlineProductDetails prod = new OnlineProductDetails(detail.productName, detail.price, detail.category, detail.imageLink, detail.description, 0.0, detail.addedByUserName, 0);
 		shopKeeper.addProduct(prod);
 		return new ResponseEntity<Object>("Product Detail Save Successfully!", HttpStatus.OK);
 	}
@@ -177,12 +181,88 @@ public class ShopKeeperController {
 		}
 	}
 	
+	@PostMapping("/getAllSuggestion")
+	public ResponseEntity<Object> getSuggestions(@RequestBody GetUserName name){
+		List<OnlineSuggestChangeProduct> detail = shopKeeper.seeAllSuggestion(name.username);
+		if(detail.isEmpty()) {
+			return new ResponseEntity<Object>("No Suggestion Available Right Now ! Please add some more product!", HttpStatus.NO_CONTENT);
+		}
+		else {
+			return new ResponseEntity<Object>(detail, HttpStatus.OK);
+		}
+	}
 	
+	@PostMapping("/actionOnRequest")
+	public ResponseEntity<Object> actionOnSuggestion(@RequestBody GetDetail detail){
+		if(shopKeeper.takeActionOnSuggestion(detail.suggestionId, detail.isAccepted, detail.comment)) {
+			return new ResponseEntity<Object>("Suggestion Action Completed !", HttpStatus.OK);
+		}
+		else {
+			return new ResponseEntity<Object>("Something wents Wrong!", HttpStatus.BAD_REQUEST);
+		}
+	}
 	
+	@PostMapping("/getAllproductRating")
+	public ResponseEntity<Object> getAllRating(@RequestBody GetUserName user){
+		List<RatingonProductStore> ratings = shopKeeper.getAllratingOnProduct(user.username);
+		if(ratings.isEmpty()) {
+			return new ResponseEntity<Object>("No Rating is received On any Product Yet.", HttpStatus.NO_CONTENT);
+		}
+		else {
+			return new ResponseEntity<Object>(ratings, HttpStatus.OK);
+		}
+	}
 	
+	@PostMapping("/getRatingOnProduct")
+	public ResponseEntity<Object> getRatingByProductName(@RequestParam("Id") int id){
+		List<RatingonProductStore> ratings = shopKeeper.getRatingByProductName(id);
+		if(ratings.isEmpty()) {
+			return new ResponseEntity<Object>("No Rating is there on Selected Product!",HttpStatus.NO_CONTENT);
+		}
+		else {
+			return new ResponseEntity<Object>(ratings, HttpStatus.OK);
+		}
+	}
 	
+	@GetMapping("/getRatingShopKeeper")
+	public ResponseEntity<Object> getRatingOnShopKeeperById(@RequestParam("Id") int id){
+		List<RatingOnShopKeeper> rating = shopKeeper.getAllShopRating(id);
+		if(rating.isEmpty()) {
+			return new ResponseEntity<Object>("No Rating is there on Selected ShopKeeper!",HttpStatus.NO_CONTENT);
+		}
+		else {
+			return new ResponseEntity<Object>(rating, HttpStatus.OK);
+		}
+	}
 	
+	@GetMapping("/getListofShopkeeper")
+	public ResponseEntity<Object> getShopKeeperList(){
+		List<OnlineShopKeeper> detail = shopKeeper.getListOfShopKeeper();
+		if(detail.isEmpty()) {
+			return new ResponseEntity<Object>("No ShopKeeper founded yet!", HttpStatus.OK);
+		}
+		else {
+			return new ResponseEntity<Object>(detail, HttpStatus.OK);
+		}
+	}
 	
+	@PostMapping("/suggestAdmin")
+	public ResponseEntity<Object> suggestAdmin(@RequestBody UsernamePassword user){
+		return new ResponseEntity<Object>(null, HttpStatus.OK);
+	}
+	
+}
+
+
+
+class GetUserName{
+	public String username;
+}
+
+class GetDetail{
+	public int suggestionId;
+	public boolean isAccepted;
+	public String comment;
 }
 
 class OnlineChat{

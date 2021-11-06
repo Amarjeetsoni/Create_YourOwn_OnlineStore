@@ -12,12 +12,17 @@ public class RatingonProductStore {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int ratingProductId;
 	private double rating;
-	private String productName;
+	private int productName;
 	private String addedByShopKeeper;
 	private String Message;
 	private String category;
 	private String ratingBy;
-	public RatingonProductStore(double rating, String productName, String addedByShopKeeper,
+	
+	public RatingonProductStore() {
+		
+	}
+	
+	public RatingonProductStore(double rating, int productName, String addedByShopKeeper,
 			String message, String c, String ratingBy) {
 		super();
 		this.rating = rating;
@@ -48,10 +53,10 @@ public class RatingonProductStore {
 	public void setRating(double rating) {
 		this.rating = rating;
 	}
-	public String getProductName() {
+	public int getProductName() {
 		return productName;
 	}
-	public void setProductName(String productName) {
+	public void setProductName(int productName) {
 		this.productName = productName;
 	}
 	public String getAddedByShopKeeper() {
